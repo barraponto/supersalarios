@@ -14,9 +14,13 @@ class DgrhSpider(scrapy.Spider):
     name_xpath = ('//table[@width="750"]/tr[./td[contains(., "{matricula}")]]'
                   '/td[1]/text()')
 
+    def __init__(self, volume=100, *args, **kwargs):
+        super(DgrhSpider, self).__init__(*args, **kwargs)
+        self.volume = int(volume)
+
     def start_requests(self):
         with open('./remuneracao-por-bruto.csv') as datafile:
-            for line in islice(csv.reader(datafile), 1, 101):
+            for line in islice(csv.reader(datafile), 1, self.volume+1):
                 yield scrapy.Request(
                     self.search_url.format(matricula=line[0]),
                     meta={'item': {'matricula': line[0],
