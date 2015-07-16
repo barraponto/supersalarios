@@ -8,6 +8,11 @@ import scrapy
 class DgrhSpider(scrapy.Spider):
     name = "dgrh"
     allowed_domains = ["siarh.unicamp.br"]
+    custom_settings = {
+        'CONCURRENT_REQUESTS': 1,
+        'DOWNLOAD_DELAY': 6
+    }
+
     search_url = ('http://www.siarh.unicamp.br/'
                   'consultaFuncionario/action/ConsultaFuncionario'
                   '?nome=&local=&matricula={matricula}')
